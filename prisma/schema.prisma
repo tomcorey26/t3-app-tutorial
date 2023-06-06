@@ -11,8 +11,14 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Example {
+model Post {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    content  String @db.VarChar(255)
+    authorId String
+
+    // When you look up a post for an author, normally you'd have to go through
+    // all of the posts and find the ones that match the authorId. This index
+    // allows you to look up posts by authorId directly and it is much faster.
+    @@index([authorId])
 }
